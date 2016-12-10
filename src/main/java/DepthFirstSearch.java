@@ -7,7 +7,7 @@ public class DepthFirstSearch {
     private boolean[] marked;
     private int count;
 
-    public DepthFirstSearch(Paths.Node[] nodeList) {
+    DepthFirstSearch(Paths.Node[] nodeList) {
         marked = new boolean[nodeList.length];
     }
 
@@ -15,7 +15,7 @@ public class DepthFirstSearch {
         marked[v] = true;
         if(nodeList[v] != null) {
             Paths.Node temp = nodeList[v];
-            while (temp.getNext() != null) {
+            while (temp != null) {
                 if (!marked[temp.getNeighbor()])
                     dfs(nodeList, temp.getNeighbor());
                 temp = temp.getNext();
@@ -23,7 +23,7 @@ public class DepthFirstSearch {
         }
     }
 
-    public int countSubtrees(Paths.Node[] nodeList) {
+    int countSubtrees(Paths.Node[] nodeList) {
         for (int i = 0; i < nodeList.length; i++) {
             if(!marked[i]) {
                 dfs(nodeList, i);

@@ -4,7 +4,6 @@
 import se.kth.id1020.Edge;
 import se.kth.id1020.Graph;
 import se.kth.id1020.DataSource;
-import se.kth.id1020.Vertex;
 
 import java.util.Iterator;
 
@@ -12,12 +11,12 @@ public class Paths {
     Graph g = DataSource.load();
     public static void main(String[] args) {
         Paths paths = new Paths();
-        Node[] arr = paths.something();
+        Node[] arr = paths.createDataStructure();
         DepthFirstSearch depthFirstSearch = new DepthFirstSearch(arr);
-        System.out.println(depthFirstSearch.countSubtrees(arr));
+        System.out.println("Number of subtrees: " + depthFirstSearch.countSubtrees(arr));
     }
 
-    public Node[] something () {
+    private Node[] createDataStructure() {
         Node[] arr = new Node[g.numberOfVertices()];
         Iterator<Edge> iterator = g.edges().iterator();
         Edge temp = iterator.next();
@@ -33,25 +32,11 @@ public class Paths {
             }
             temp = iterator.next();
         }
-        int i = 0;
-        for(Node node : arr) {
-            if(node == null)
-                System.out.println("Nullerino at " + i);
-            else {
-                System.out.print("{" + node.getNeighbor());
-                while (node.getNext() != null) {
-                    System.out.print(", " + node.getNext().getNeighbor());
-                    node = node.getNext();
-                }
-                System.out.println("}");
-            }
-            i++;
-        }
         return arr;
     }
 
     class Node {
-        int neighbor = -1;
+        int neighbor;
         Node next;
 
         Node(int neighbor) {
