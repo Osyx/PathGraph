@@ -1,38 +1,38 @@
-/**
- * Created by Oscar on 16-12-09.
- */
 import se.kth.id1020.Edge;
 import se.kth.id1020.Graph;
 import se.kth.id1020.DataSource;
 
 import java.util.Iterator;
 
+/**
+ * Created by Oscar on 16-12-09.
+ */
 public class Paths {
-    Graph g = DataSource.load();
+
     public static void main(String[] args) {
         Paths paths = new Paths();
-        Node[] arr = paths.createDataStructure();
-        DepthFirstSearch depthFirstSearch = new DepthFirstSearch(arr);
-        System.out.println("Number of subtrees: " + depthFirstSearch.countSubtrees(arr));
+        Node[] newGraphStructure = paths.createDataStructure(DataSource.load());
+        DepthFirstSearch depthFirstSearch = new DepthFirstSearch(newGraphStructure);
+        System.out.println("Number of subtrees: " + depthFirstSearch.countSubtrees(newGraphStructure));
     }
 
-    private Node[] createDataStructure() {
-        Node[] arr = new Node[g.numberOfVertices()];
-        Iterator<Edge> iterator = g.edges().iterator();
-        Edge temp = iterator.next();
-        for (int i = 0; i < g.numberOfEdges() - 1; i++) {
-            if(arr[temp.from] == null) {
-                arr[temp.from] = new Node(temp.to);
+    private Node[] createDataStructure(Graph givenGraph) {
+        Node[] newDataStructure = new Node[givenGraph.numberOfVertices()];
+        Iterator<Edge> edgeIterator = givenGraph.edges().iterator();
+        Edge currentEdge = edgeIterator.next();
+        for (int i = 0; i < givenGraph.numberOfEdges() - 1; i++) {
+            if(newDataStructure[currentEdge.from] == null) {
+                newDataStructure[currentEdge.from] = new Node(currentEdge.to);
             } else {
-                Node tempNode = arr[temp.from];
-                while(tempNode.getNext() != null)
-                    tempNode = tempNode.getNext();
-                if (tempNode.getNeighbor() != temp.to)
-                    tempNode.add(temp.to);
+                Node currentFrom = newDataStructure[currentEdge.from];
+                while(currentFrom.getNext() != null)
+                    currentFrom = currentFrom.getNext();
+                if (currentFrom.getNeighbor() != currentEdge.to)
+                    currentFrom.add(currentEdge.to);
             }
-            temp = iterator.next();
+            currentEdge = edgeIterator.next();
         }
-        return arr;
+        return newDataStructure;
     }
 
     class Node {
