@@ -51,11 +51,11 @@ public class Paths {
             this.next = next;
         }
 
-        public int getNeighbor() {
+        int getNeighbor() {
             return neighbor;
         }
 
-        public Node getNext() {
+        Node getNext() {
             return next;
         }
     }

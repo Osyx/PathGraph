@@ -3,7 +3,7 @@ import se.kth.id1020.Graph;
 /**
  * Created by Oscar on 16-12-09.
  */
-public class DepthFirstSearch {
+class DepthFirstSearch {
     private boolean[] marked;
     private int count;
 
