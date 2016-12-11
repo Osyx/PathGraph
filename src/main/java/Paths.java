@@ -10,10 +10,15 @@ import java.util.Iterator;
 public class Paths {
 
     public static void main(String[] args) {
+        Graph graph = DataSource.load();
         Paths paths = new Paths();
-        Node[] newGraphStructure = paths.createDataStructure(DataSource.load());
+        Node[] newGraphStructure = paths.createDataStructure(graph);
         DepthFirstSearch depthFirstSearch = new DepthFirstSearch(newGraphStructure);
         System.out.println("Number of subtrees: " + depthFirstSearch.countSubtrees(newGraphStructure));
+        paths.getDistance(graph, "Parses", "Renyn", true);
+        paths.getDistance(graph, "Parses", "Renyn", false);
+        paths.getPath(graph, "Renyn", "Parses", true);
+        paths.getPath(graph, "Renyn", "Parses", false);
     }
 
     private Node[] createDataStructure(Graph givenGraph) {
@@ -33,6 +38,22 @@ public class Paths {
             currentEdge = edgeIterator.next();
         }
         return newDataStructure;
+    }
+
+    private void getDistance(Graph graph, String fromName, String toName, boolean weighted) {
+        Dijkstra dijkstra = new Dijkstra(graph, fromName, weighted);
+        System.out.println("Distance to " + toName + " from " + fromName + ":\n" + dijkstra.getDistTo(toName));
+    }
+
+    private void getPath(Graph graph, String fromName, String toName, boolean weighted) {
+        Dijkstra dijkstra = new Dijkstra(graph, fromName, weighted);
+        for(String name : dijkstra.getPath(fromName, toName)) {
+            if (name.matches(fromName)) {
+                System.out.println(name);
+                break;
+            }
+            System.out.print(name + "->");
+        }
     }
 
     class Node {
